@@ -34,9 +34,11 @@
         const clientId = Math.random().toString(36).substring(2);
         const apiBaseUrl = "http://localhost:7249";
         const connection = new signalR.HubConnectionBuilder()
-            .withUrl(`${apiBaseUrl}/api`, { withCredentials: true })
+            .withUrl(`${apiBaseUrl}/api`, {
+                transport: signalR.HttpTransportType.WebSockets | signalR.HttpTransportType.LongPolling,
+                withCredentials: true,
+            })
             .build();
-
 
         connection.on("newStrokes", drawStrokes);
         connection.on("clearCanvas", clearCanvas);
