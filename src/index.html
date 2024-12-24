@@ -65,8 +65,13 @@
         let penDown = false;
         let previous = { x: 0, y: 0 };
 
-        canvas.addEventListener("mousedown", () => (penDown = true));
+        canvas.addEventListener("mousedown", (ev) => {
+            penDown = true;
+            previous = { x: ev.offsetX, y: ev.offsetY };
+        });
+
         canvas.addEventListener("mouseup", () => (penDown = false));
+
         canvas.addEventListener("mousemove", async (ev) => {
             if (!penDown) return;
 
@@ -77,6 +82,7 @@
             previous = { x: ev.offsetX, y: ev.offsetY };
 
             try {
+                // Broadcast strokes to the server
                 await axios.post(`${apiBaseUrl}/api/draw`, {
                     sender: clientId,
                     strokes: [{ start, end, color: colorPicker.value }],
@@ -87,9 +93,10 @@
         });
 
         function drawStrokes(strokeCollection) {
-            strokeCollection.strokes.forEach(({ start, end, color }) =>
-                drawStroke(start, end, color)
-            );
+            // Draw strokes received from the server
+            strokeCollection.strokes.forEach(({ start, end, color }) => {
+                drawStroke(start, end, color);
+            });
         }
 
         function drawStroke(start, end, color) {
@@ -107,3 +114,4 @@
 </body>
 
 </html>
+
