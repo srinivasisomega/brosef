@@ -32,7 +32,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min.js"></script>
     <script>
         const clientId = Math.random().toString(36).substring(2);
-        const apiBaseUrl = "http://localhost:7249";
+        const apiBaseUrl = "serverlessdraw.azurewebsites.net";
         const connection = new signalR.HubConnectionBuilder()
             .withUrl(`${apiBaseUrl}/api`, { transport: signalR.HttpTransportType.WebSockets })
             .configureLogging(signalR.LogLevel.Debug)
